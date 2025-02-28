@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -46,21 +47,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProductById(Integer id) {
-        Optional<Product> product = productRepository.findById(id);
+        Optional<Product> optionalProduct = productRepository.findById(id);
 
-        if (product.isEmpty()){
+        if (optionalProduct.isEmpty()){
             throw new CustomException("No se encontro Product con ID " + id,
                     HttpStatus.BAD_REQUEST);
         }
 
-        return mapper.map(product.get(), ProductDto.class);
+        return mapper.map(optionalProduct.get(), ProductDto.class);
     }
 
     @Override
     public ProductDto updateProduct(Product updatedProduct) {
-        Optional<Product> optProduct = productRepository.findById(updatedProduct.getId());
+        Optional<Product> optionalProduct = productRepository.findById(updatedProduct.getId());
 
-        if (optProduct.isEmpty()){
+        if (optionalProduct.isEmpty()){
             throw new CustomException("No se pudo actualizar, no se encontro Product existente con ID " + updatedProduct.getId(),
                     HttpStatus.BAD_REQUEST);
         }
@@ -73,9 +74,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductById(Integer id) {
-        Optional<Product> optProduct = productRepository.findById(id);
+        Optional<Product> optionalProduct = productRepository.findById(id);
 
-        if (optProduct.isEmpty()){
+        if (optionalProduct.isEmpty()){
             throw new CustomException("No se pudo eliminar, no se encontro Product existente con ID " + id,
                     HttpStatus.BAD_REQUEST);
         }
@@ -93,8 +94,13 @@ public class ProductServiceImpl implements ProductService {
         if (product.getName().length() > 255){
             throw new CustomException("El Nombre no puede tener mas de 255 caracteres", HttpStatus.BAD_REQUEST);
         }
-        if (productRepository.findByName(product.getName()).isPresent()){
-            throw new CustomException("Ya existe Producto con nombre: " + product.getName(), HttpStatus.BAD_REQUEST);
+
+        // verifica si ya existe un Product con el mismo name, y si lo encuentra, solo tira la Exception si los IDs son diferentes.
+        // (esto verifica 2 casos, el caso de crear un nuevo Product, y q el name ya exista en la DB y,
+        //  el caso de actualizar un Product con el name de otro Product existente)
+        Optional<Product> optionalProduct = productRepository.findByName(product.getName());
+        if (optionalProduct.isPresent() && !Objects.equals(product.getId(), optionalProduct.get().getId())){
+            throw new CustomException("Ya existe un Producto con nombre: " + product.getName(), HttpStatus.BAD_REQUEST);
         }
         if (product.getDescription().length() > 1000){
             throw new CustomException("La Descripcion no puede tener mas de 1000 caracteres", HttpStatus.BAD_REQUEST);
