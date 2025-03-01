@@ -45,7 +45,7 @@ public class ProductControllerUnitTesting {
         //objetos (q se van a pasar por parametro, o devolver de otros metodos simulados "fakes")
         ProductDto productDto1 = new ProductDto("agua", "desc", 100.0, 1);
 
-        //fakes (se simula la respuesta de las capas externas a la capa service)
+        //fakes (se simula la respuesta de las capas externas)
         when(productService.createProduct(any(ProductDto.class))).thenReturn(productDto1);
 
         //test (se prueba el metodo) y...
@@ -70,7 +70,7 @@ public class ProductControllerUnitTesting {
         List<ProductDto> productDtoList = new ArrayList<>();
         productDtoList.add(productDto1); productDtoList.add(productDto2);
 
-        //fakes (se simula la respuesta de las capas externas a la capa service)
+        //fakes (se simula la respuesta de las capas externas)
         when(productService.getAllProducts()).thenReturn(productDtoList);
 
         //test (se prueba el metodo) y...
@@ -92,7 +92,7 @@ public class ProductControllerUnitTesting {
         //objetos (q se van a pasar por parametro, o devolver de otros metodos simulados "fakes")
         ProductDto productDto1 = new ProductDto("agua", "desc", 100.0, 1);
 
-        //fakes (se simula la respuesta de las capas externas a la capa service)
+        //fakes (se simula la respuesta de las capas externas)
         when(productService.getProductById(anyInt())).thenReturn(productDto1);
 
         //test (se prueba el metodo) y...
@@ -111,7 +111,7 @@ public class ProductControllerUnitTesting {
         Product product1 = new Product(1, "sanguchito", "desc", 150.0, 1);
         ProductDto productDto1 = new ProductDto("sanguchito", "desc", 150.0, 1);
 
-        //fakes (se simula la respuesta de las capas externas a la capa service)
+        //fakes (se simula la respuesta de las capas externas)
         when(productService.updateProduct(any(Product.class))).thenReturn(productDto1);
 
         //test (se prueba el metodo) y...
@@ -131,7 +131,7 @@ public class ProductControllerUnitTesting {
         //objetos (q se van a pasar por parametro, o devolver de otros metodos simulados "fakes")
         Integer idProduct = 1;
 
-        //fakes (se simula la respuesta de las capas externas a la capa service)
+        //fakes (se simula la respuesta de las capas externas)
         doNothing().when(productService).deleteProductById(idProduct);
 
         //test (se prueba el metodo)

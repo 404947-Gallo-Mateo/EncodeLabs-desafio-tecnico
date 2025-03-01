@@ -115,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
             throw new CustomException("La Descripcion no puede tener mas de 1000 caracteres", HttpStatus.BAD_REQUEST);
         }
         if (product.getPrice() < 1){
-            throw new CustomException("El Precio debe ser mayor a 1", HttpStatus.BAD_REQUEST);
+            throw new CustomException("El Precio debe ser mayor a 0", HttpStatus.BAD_REQUEST);
         }
         if (product.getQuantity() < 0){
             throw new CustomException("La Cantidad debe ser mayor o igual a 0", HttpStatus.BAD_REQUEST);
