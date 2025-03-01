@@ -22,6 +22,8 @@ public class ProductController {
     @Operation(
             summary = " Crear y Guardar un nuevo Product",
             description = """
+                    Object: ProductDto
+                    
                     | name: required, 255 char max.
                     
                     | description: optional, 1000 char max.
@@ -55,6 +57,8 @@ public class ProductController {
     @Operation(
             summary = "Actualizar un Product existente",
             description = """
+                    Object: Product
+                    
                     | id: required, greater than 0.
                     
                     | name: required, 255 char max.
