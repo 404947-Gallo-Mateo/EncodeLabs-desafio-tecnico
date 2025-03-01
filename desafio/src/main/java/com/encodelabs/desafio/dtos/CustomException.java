@@ -1,4 +1,4 @@
-package com.encodelabs.desafio.controllers.manageExceptions;
+package com.encodelabs.desafio.dtos;
 
 import org.springframework.http.HttpStatus;
 
